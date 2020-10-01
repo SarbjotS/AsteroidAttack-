@@ -70,10 +70,10 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 
 		mWidth = width;
 		mHeight = height;
-
+		
 		mFrame.setSize(width, height);
 		mFrame.setLocation(200,200);
-		mFrame.setTitle("Window");
+		mFrame.setTitle("JumpJump!");
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mFrame.add(mPanel);
 		mFrame.setVisible(true);
@@ -81,6 +81,34 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mPanel.setDoubleBuffered(true);
 		mPanel.addMouseListener(this);
 		mPanel.addMouseMotionListener(this);
+		mPanel.setLayout(null);
+
+		JButton mExit = new JButton();
+		JButton mPlay = new JButton();
+		JButton mHelp = new JButton();
+		//"Icon made by Pixel perfect from www.flaticon.com"
+		mPlay.setIcon(new ImageIcon("play-button.png"));
+		mExit.setIcon(new ImageIcon("exit.png"));
+		mHelp.setIcon(new ImageIcon("help-button.png"));
+
+		mPlay.setOpaque(false);
+		mPlay.setContentAreaFilled(false);
+		mPlay.setBorderPainted(false);
+		mExit.setOpaque(false);
+		mExit.setContentAreaFilled(false);
+		mExit.setBorderPainted(false);
+		mHelp.setOpaque(false);
+		mHelp.setContentAreaFilled(false);
+		mHelp.setBorderPainted(false);
+		
+		mPlay.setBounds(200, 150, 64, 64);
+		mHelp.setBounds(200, 250, 64, 64);
+		mExit.setBounds(200, 350, 64, 64);
+
+		
+		mPanel.add(mPlay);
+		mPanel.add(mHelp);
+		mPanel.add(mExit);
 
 		// Register a key event dispatcher to get a turn in handling all
 		// key events, independent of which component currently has the focus
@@ -107,6 +135,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		// Resize the window (insets are just the boarders that the Operating System puts on the board)
 		Insets insets = mFrame.getInsets();
 		mFrame.setSize(width + insets.left + insets.right, height + insets.top + insets.bottom);
+
 	}
 
 	public void setWindowSize(final int width, final int height) {
@@ -147,7 +176,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 			@Override
 			public void run() {
 				// Create the window	
-				setupWindow(500,500);
+				setupWindow(450,750);
 			}
 		});
 	}
@@ -155,7 +184,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 	// Create Game Function
 	public static void createGame(GameEngine game, int framerate) {
 		// Initialise Game
-		game.init();
+		//game.init();
 
 		// Start the Game
 		game.gameLoop(framerate);
@@ -227,7 +256,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 
 			// Paint the game
 			if (initialised) {
-				GameEngine.this.paintComponent();
+				GameEngine.this.init();
 			}
 		}
 	}
@@ -242,6 +271,8 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		// Main loop runs until program is closed
 		timer.start();
 	}
+
+	protected abstract void paintMainMenu();
 
 	//-------------------------------------------------------
 	// Initialise function
