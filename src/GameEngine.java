@@ -22,7 +22,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 	int mWidth, mHeight;
 	Graphics2D mGraphics;
 	boolean initialised = false;
-
+	public boolean showHelp = false; //Using this to show/unshow help
 	//-------------------------------------------------------
 	// Time-Related functions
 	//-------------------------------------------------------
@@ -86,11 +86,15 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		JButton mExit = new JButton();
 		JButton mPlay = new JButton();
 		JButton mHelp = new JButton();
-		//"Icon made by Pixel perfect from www.flaticon.com"
-		mPlay.setIcon(new ImageIcon("play-button.png"));
-		mExit.setIcon(new ImageIcon("exit.png"));
-		mHelp.setIcon(new ImageIcon("help-button.png"));
+		JButton mBack = new JButton();
 
+		//"Icon made by Pixel perfect from www.flaticon.com"
+		mPlay.setIcon(new ImageIcon("Icons/play-button.png"));
+		mExit.setIcon(new ImageIcon("Icons/exit.png"));
+		mHelp.setIcon(new ImageIcon("Icons/help-button.png"));
+		mBack.setIcon(new ImageIcon("Icons/backButton.png")); //"Icon made by xnimrodx from www.flaticon.com"
+
+		//REMOVE BORDER ON BUTTONS
 		mPlay.setOpaque(false);
 		mPlay.setContentAreaFilled(false);
 		mPlay.setBorderPainted(false);
@@ -100,16 +104,44 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mHelp.setOpaque(false);
 		mHelp.setContentAreaFilled(false);
 		mHelp.setBorderPainted(false);
+		mBack.setOpaque(false);
+		mBack.setContentAreaFilled(false);
+		mBack.setBorderPainted(false);
 		
 		mPlay.setBounds(200, 150, 64, 64);
-		mExit.setBounds(200, 250, 64, 64);
-		mHelp.setBounds(200, 350, 64, 64);
+		mHelp.setBounds(200, 250, 64, 64);
+		mExit.setBounds(200, 350, 64, 64);
+		mBack.setBounds(350,450,64,64);
 
 		
 		mPanel.add(mPlay);
-		mPanel.add(mExit);
 		mPanel.add(mHelp);
-
+		mPanel.add(mExit);
+		
+		mHelp.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				mPanel.remove(mHelp);
+				mPanel.remove(mPlay);
+				mPanel.remove(mExit);
+				mPanel.add(mBack);
+				showHelp = true;
+			}
+		});
+		mBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mPanel.remove(mBack);
+				mPanel.add(mPlay);
+				mPanel.add(mHelp);
+				mPanel.add(mExit);	
+				showHelp = false;
+				}
+		});
+		mExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
+			}
+		});
+		
 		// Register a key event dispatcher to get a turn in handling all
 		// key events, independent of which component currently has the focus
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
@@ -137,6 +169,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mFrame.setSize(width + insets.left + insets.right, height + insets.top + insets.bottom);
 
 	}
+
 
 	public void setWindowSize(final int width, final int height) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -257,7 +290,6 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 			// Paint the game
 			if (initialised) {
 				GameEngine.this.init();
-				GameEngine.this.paintMainMenu();
 			}
 		}
 	}
@@ -341,6 +373,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 	Color purple = new Color(128, 0, 128);
 	Color blue = Color.BLUE;
 	Color green = Color.GREEN;
+	Color DGray = Color.DARK_GRAY;
 	Color yellow = Color.YELLOW;
 	Color white = Color.WHITE;
 
