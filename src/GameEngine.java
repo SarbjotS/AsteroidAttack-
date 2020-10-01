@@ -23,6 +23,8 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 	Graphics2D mGraphics;
 	boolean initialised = false;
 	public boolean showHelp = false; //Using this to show/unshow help
+	public boolean PLAYING = false;
+	public boolean MAINMENU = true;
 	//-------------------------------------------------------
 	// Time-Related functions
 	//-------------------------------------------------------
@@ -117,6 +119,16 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mPanel.add(mPlay);
 		mPanel.add(mHelp);
 		mPanel.add(mExit);
+		
+		mPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mPanel.remove(mHelp);
+				mPanel.remove(mPlay);
+				mPanel.remove(mExit);
+				MAINMENU = false;
+				PLAYING = true;
+			}
+		});
 		
 		mHelp.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {

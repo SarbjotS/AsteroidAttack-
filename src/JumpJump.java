@@ -26,15 +26,18 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 	int LeftBound; 
 	int RightBound;
-	boolean PLAYING = true;
 	boolean MR = false; //MENU RIGHT
 	boolean ML = false; //MENU LEFT
 	boolean IDLE = true;
+	boolean MU = false;
+	
+	//----------------------
+
+	
+	//----------------------------
 	
 	public void init() {
 		setWindowSize(WindowX,WindowY);
-		BackgroundImage = loadImage("Extras/BG.png");
-		MainMenuHead = loadImage("Extras/JumpJumpHead.png");
 		IdleDino = new Image[30];
 		IdleDino[0] = loadImage("IdleSprite\\Idle(1).png");
 		IdleDino[1] = loadImage("IdleSprite\\Idle(2).png");
@@ -65,9 +68,15 @@ public class JumpJump extends GameEngine implements KeyListener {
 		MainMenuGround[0] = loadImage("BasicGround\\Ground01.png");
 		MainMenuGround[1] = loadImage("BasicGround\\Ground02.png");
 		MainMenuGround[2] = loadImage("BasicGround\\Ground03.png");
-
+		drawImage(IdleDino[MenuCurrentFrame],DinoX,DinoY,200,200);
 		paintMainMenu();
 
+		if (PLAYING) {
+			StartGame();
+		}
+		
+		MoveDino();
+		//MAKE MAIN GAME HERE
 
 	}
 	
@@ -79,23 +88,24 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 		
 	}
-
-	public void MoveRight() {
-		while (MR) {
-			DinoX++;
-			if (DinoX>RightBound) {
-				DinoY+=5;
-			}
-		}
+	public void StartGame(){
+		drawImage(BackgroundImage,0,0,WindowX,WindowY);
+		drawImage(MainMenuGround[0],25,625,100,100);
+		drawImage(MainMenuGround[1],125,625,100,100);
+		drawImage(MainMenuGround[2],225,625,100,100);
+		
+		//MAKE A RANDOMIZER for where to place tiles
+		//drawImage(MainMenuGround[0],25,325,100,100);
+		//drawImage(MainMenuGround[1],125,325,100,100);
+		//drawImage(MainMenuGround[2],225,325,100,100);
 	}
-	
 	@Override
 	public void paintComponent() {
-		//changeBackgroundColor(blue);
-		//clearBackground(WindowX,WindowY);
-		// TODO Auto-generated method stub
+
+				// TODO Auto-generated method stub
 		
 	}
+
 	public static void main(String args[]) {
 		createGame(new JumpJump());
 	}
@@ -103,11 +113,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	public JumpJump() {
 		
 	}
-	
-	public void paintMainMenu() {
-		drawImage(BackgroundImage,0,0,WindowX,WindowY);
-		drawImage(MainMenuHead,25,50,400,50);
-
+	public void MoveDino() {
 		if (IDLE) {
 		drawImage(IdleDino[MenuCurrentFrame],DinoX,DinoY,200,200);
 		}
@@ -121,13 +127,31 @@ public class JumpJump extends GameEngine implements KeyListener {
 			drawImage(RunLeftDino[currentFrame],DinoX-64,DinoY,200,200); //WILL HAVE TO MINUS 64
 												//Flipped in editor so have to compensate for empty space
 		}
+		if (MU) {
+			DinoY-=10; //WILL KEEP FLOATING UP, WHEN CERTAIN NUMBER IS HIT START GOING DOWN
+			drawImage(RunLeftDino[currentFrame],DinoX-64,DinoY,200,200);
+		}
+	}
+	
+	public void paintMainMenu() {
+		BackgroundImage = loadImage("Extras/BG.png");
+		MainMenuHead = loadImage("Extras/JumpJumpHead.png");
+		drawImage(BackgroundImage,0,0,WindowX,WindowY);
+		drawImage(MainMenuHead,25,50,400,50);
+
+
 		drawImage(MainMenuGround[0],25,625,100,100);
 		drawImage(MainMenuGround[1],125,625,100,100);
 		drawImage(MainMenuGround[2],225,625,100,100);
-		
 		LeftBound = -40;
 		RightBound = 280;
+		ShowHelp();
 		
+
+		//LEFT AND RIGHT BOUND NEED TO BE +- 65 of INTIAL DRAWN POINTS
+		// TODO Auto-generated method stub
+	}
+	public void ShowHelp() {
 		if (showHelp) {
 			Image tablet;
 			tablet = loadImage("Extras/tablet.png");
@@ -139,11 +163,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 			drawText(90,250,"3: Avoid falling off the edge of your tile!","Arial",16);
 			drawText(90,275,"4: Climb fast or else the water from","Arial",16);
 			drawText(90,300,"below will envelop you!","Arial",16);
-
 		}
-
-		//LEFT AND RIGHT BOUND NEED TO BE +- 65 of INTIAL DRAWN POINTS
-		// TODO Auto-generated method stub
 	}
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_D) {
@@ -168,6 +188,10 @@ public class JumpJump extends GameEngine implements KeyListener {
 			MR = false;
 			IDLE = true;
 			ML = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_W) {
+			IDLE = false;
+			MU = true;
 		}
 	}
 
