@@ -6,25 +6,24 @@ import java.awt.event.KeyListener;
 
 public class JumpJump extends GameEngine implements KeyListener {
 	int WindowX = 700;
-	int WindowY = 700; 
-	Image[] frames;
+	int WindowY = 700;
+	
+	//Frames
 	int currentFrame;
 	int JumpFrame;
-	//MENU
 	int MenuCurrentFrame;
 	
+	//Images
 	Image MainMenuHead;
 	Image[] MainMenuGround;
-
-	//DINO MOVEMENT
 	Image[] RunLeftDino;
 	Image[] RunRightDino;
 	Image[] IdleDino;
 	Image[] DinoJump;
+	
+	//DINO MOVEMENT
 	int DinoX = 50; 
 	int DinoY = 450;
-	int jumpingCheck = DinoY-40;
-	int i = 0;
 
 
 	Image BackgroundImage;
@@ -144,10 +143,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	public JumpJump() {
 		
 	}
-	public void MoveDino() {
-		System.out.print(DinoY+"\n" + jumpingCheck+"\n-----\n");
-		//System.out.print(tileTop[i-1]);
-		
+	public void MoveDino() {		
 		if (IDLE) {
 			drawImage(IdleDino[MenuCurrentFrame],DinoX,DinoY,200,200);
 		}
@@ -205,14 +201,14 @@ public class JumpJump extends GameEngine implements KeyListener {
 		if (showHelp) {
 			Image tablet;
 			tablet = loadImage("Extras/tablet.png");
-			drawImage(tablet,50,125,350,300);
+			drawImage(tablet,150,225,350,300);
 			changeColor(DGray);
-			drawText(180,175,"Rules","Arial",18);
-			drawText(90,200,"1: Use the A and D key to move left or right!","Arial",16);
-			drawText(90,225,"2: Use the S and W key to stop or jump!","Arial",16);
-			drawText(90,250,"3: Avoid falling off the edge of your tile!","Arial",16);
-			drawText(90,275,"4: Climb fast or else the water from","Arial",16);
-			drawText(90,300,"below will envelop you!","Arial",16);
+			drawText(200,175,"Rules","Arial",18);
+			drawText(180,300,"1: Use the A and D key to move left or right!","Arial",16);
+			drawText(180,325,"2: Use the W key to jump!","Arial",16);
+			drawText(180,350,"3: Avoid falling off the edges!","Arial",16);
+			drawText(180,375,"4: Avoid the asteroids or any other danger!","Arial",16);
+			drawText(180,400,"below will envelop you!","Arial",16);
 		}
 	}
 	public void keyPressed(KeyEvent e ) {

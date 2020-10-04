@@ -110,10 +110,10 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mBack.setContentAreaFilled(false);
 		mBack.setBorderPainted(false);
 		
-		mPlay.setBounds(200, 150, 64, 64);
-		mHelp.setBounds(200, 250, 64, 64);
-		mExit.setBounds(200, 350, 64, 64);
-		mBack.setBounds(350,450,64,64);
+		mPlay.setBounds(350, 150, 64, 64);
+		mHelp.setBounds(350, 250, 64, 64);
+		mExit.setBounds(350, 350, 64, 64);
+		mBack.setBounds(600,450,64,64);
 
 		
 		mPanel.add(mPlay);
