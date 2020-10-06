@@ -50,7 +50,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean going = true;
 	
 	//Asteroid difficulty
-	int AsteroidSpeed = 15;
+	int AsteroidSpeed = 25;
 	int AsteroidDif = 1;
 	int counter = 0;
 
@@ -121,7 +121,11 @@ public class JumpJump extends GameEngine implements KeyListener {
 	
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			if (AsteroidX[i] >= DinoX-64 && AsteroidX[i] <= DinoX+64 ||AsteroidY[i] >= DinoY-64 && AsteroidY[i] <= DinoY+64 ) {
+			System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
+			System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
+			System.out.print("DinoX: "+ DinoX+"\n");
+			System.out.print("DinoY: "+ DinoY+ "\n");
+			if (AsteroidX[i] >= DinoX-50 && AsteroidX[i] <= DinoX+165 && AsteroidY[i] >= DinoY-50 && AsteroidY[i] <= DinoY+50 ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 				System.out.print("YO");
 			}
 		}
