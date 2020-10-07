@@ -75,7 +75,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		
 		mFrame.setSize(width, height);
 		mFrame.setLocation(200,200);
-		mFrame.setTitle("JumpJump!");
+		mFrame.setTitle("AsteroidAttack!");
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mFrame.add(mPanel);
 		mFrame.setVisible(true);
@@ -512,6 +512,11 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		// Draw text on the screen
 		mGraphics.setFont(new Font("Arial", Font.PLAIN, 40));
 		mGraphics.drawString(s, (int)x, (int)y);
+	}
+	public void drawTextHighScore(double x, double y, String font, int size, int score) {
+		// Draw text on the screen
+		mGraphics.setFont(new Font(font, Font.PLAIN, size));
+		mGraphics.drawString(String.valueOf(score), (int) x, (int) y);
 	}
 
 	// This function draws bold text on the screen at (x,y)
