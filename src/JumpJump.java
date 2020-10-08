@@ -50,12 +50,14 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean going = true;
 	
 	//Asteroid difficulty
-	int AsteroidSpeed = 35;
+	int AsteroidSpeed = 60;
 	int AsteroidDif = 1;
 	int counter = 0;
+	int pointNum = 100;
+	boolean PeakDif = false;
 	
 	//Health
-	int health = 1;
+	int health = 3;
 	boolean GameOverManGameOver = false;
 	//Scores
 	int score = 0;
@@ -243,7 +245,14 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 		for(int i = 0; i<AsteroidAmount;i++) {
 			if (AsteroidY[i] >= 700) {
-				score +=100;
+				score +=pointNum;
+				if (score%500 == 0 && !PeakDif) {
+					AsteroidDif++;
+					AsteroidSpeed += 5;
+					if (score == 1500) {
+						PeakDif = true;
+					}
+				}
 				counter++;
 				if(counter == AsteroidDif) {
 					newAsteroid(i);
