@@ -58,6 +58,12 @@ public class JumpJump extends GameEngine implements KeyListener {
 	
 	//Health
 	int health = 3;
+	int AsteroidSpeed = 35;
+	int AsteroidDif = 1;
+	int counter = 0;
+	
+	//Health
+	int health = 1;
 	boolean GameOverManGameOver = false;
 	//Scores
 	int score = 0;
@@ -126,6 +132,11 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+135) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 
+			//System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
+			//System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
+			//System.out.print("DinoX: "+ DinoX+"\n");
+			//System.out.print("DinoY: "+ DinoY+ "\n");
+			if (AsteroidX[i] >= DinoX-50 && AsteroidX[i] <= DinoX+165 && AsteroidY[i] >= DinoY-50 && AsteroidY[i] <= DinoY+50 ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 				HealthLoss();
 			}
 		}
@@ -253,6 +264,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 						PeakDif = true;
 					}
 				}
+				score +=100;
 				counter++;
 				if(counter == AsteroidDif) {
 					newAsteroid(i);
@@ -389,6 +401,13 @@ public class JumpJump extends GameEngine implements KeyListener {
 			ML = true;
 			MU = false;
 
+			if (DinoX<LeftBound) {
+				DinoY+=10;
+			}
+			if (DinoY>700) {
+				HealthLoss();
+
+			}
 
 		}
 		if (e.getKeyCode() == KeyEvent.VK_S&&PLAYING) {
@@ -404,6 +423,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 			ML = false;
 		}	
 		if (e.getKeyCode() == KeyEvent.VK_Y) {
+		if (e.getKeyCode() == KeyEvent.VK_Y&&PLAYING) {
 			if(score>importScore) {
 				JumpJump.importScore = score;
 				
@@ -413,6 +433,11 @@ public class JumpJump extends GameEngine implements KeyListener {
 			
 		}
 
+			createGame(new JumpJump(importScore));
+		}
+		//if (e.getKeyCode() == KeyEvent.VK_C) {
+			//PLAYING = true;
+		//}
 	}
 	
 	public void keyReleased(KeyEvent e) {
