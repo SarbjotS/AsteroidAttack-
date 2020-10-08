@@ -121,15 +121,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 	//Commented out are for testing
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			//System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
-			//System.out.print("DinoX: "+ (DinoX-25)+"\n");
-			//System.out.print("DinoX: "+ (DinoX+64)+"\n");
+
 			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+135) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
-				//System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
-				//System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
-				//System.out.print("DinoX: "+ (DinoX-25)+"\n");
-				//System.out.print("DinoX: "+ (DinoX+25)+"\n");
-				//System.out.print("DinoY: "+ DinoY+ "\n");
+
 				HealthLoss();
 			}
 		}
