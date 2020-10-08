@@ -50,17 +50,20 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean going = true;
 	
 	//Asteroid difficulty
-	int AsteroidSpeed = 25;
+	int AsteroidSpeed = 35;
 	int AsteroidDif = 1;
 	int counter = 0;
-
+	
+	//Health
+	int health = 1;
+	boolean GameOverManGameOver = false;
 	//Scores
 	int score = 0;
+	int highScore = 0;
+	static int importScore;
 	//----------------------
 	//Difficulty
-	//Collision
-	//Point System
-	//life system
+
 	//new game
 	//----------------------------
 	public void initAsteroid() {
@@ -103,9 +106,6 @@ public class JumpJump extends GameEngine implements KeyListener {
 		for (int i = 0; i <AsteroidAmount; i++) {
 			AsteroidX[i] += AsteroidVX[i]*dt;
 			AsteroidY[i] += AsteroidVY[i]*dt;
-			if (AsteroidY[i]>=700) {
-				System.out.print("Hey");
-			}
 		}
 	}
 	
@@ -118,15 +118,13 @@ public class JumpJump extends GameEngine implements KeyListener {
 			restoreLastTransform();
 		}
 	}
-	
+	//Commented out are for testing
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
-			System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
-			System.out.print("DinoX: "+ DinoX+"\n");
-			System.out.print("DinoY: "+ DinoY+ "\n");
-			if (AsteroidX[i] >= DinoX-50 && AsteroidX[i] <= DinoX+165 && AsteroidY[i] >= DinoY-50 && AsteroidY[i] <= DinoY+50 ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
-				System.out.print("YO");
+
+			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+135) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+
+				HealthLoss();
 			}
 		}
 
@@ -190,7 +188,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 		if (PLAYING) {
 			StartGame();
 		}
-
+		if (GameOverManGameOver){
+			GameOver();
+		}
 
 		AsteroidCollision();
 		MoveDino();
@@ -205,13 +205,10 @@ public class JumpJump extends GameEngine implements KeyListener {
 		currentFrame = (currentFrame +2) % 8;
 		JumpFrame = (JumpFrame+1)%12;
 		updateAsteroid(dt);
-		if (GameOver) {
-			return;
-		}
 
-		
 	}
 	public void StartGame(){
+
 		if (going) {
 			initAsteroid();
 			going = false;
@@ -224,10 +221,29 @@ public class JumpJump extends GameEngine implements KeyListener {
 		drawImage(MainMenuGround[1],325,625,100,100);
 		drawImage(MainMenuGround[1],425,625,100,100);
 		drawImage(MainMenuGround[2],525,625,100,100);
+		PaintScore();
 		drawAsteroid();
+
+		if(health == 3) {
+			drawImage(IdleDino[0],500,0,100,100);
+			drawImage(IdleDino[0],550,0,100,100);
+			drawImage(IdleDino[0],600,0,100,100);
+		}
+		if(health == 2) {
+			drawImage(IdleDino[0],500,0,100,100);
+			drawImage(IdleDino[0],550,0,100,100);
+		}
+		if(health == 1) {
+			drawImage(IdleDino[0],500,0,100,100);
+		}
+		if(health == 0) {
+			GameOverManGameOver = true;;
+		}
+
 
 		for(int i = 0; i<AsteroidAmount;i++) {
 			if (AsteroidY[i] >= 700) {
+				score +=100;
 				counter++;
 				if(counter == AsteroidDif) {
 					newAsteroid(i);
@@ -237,6 +253,12 @@ public class JumpJump extends GameEngine implements KeyListener {
 			}
 		}
 	}
+	private void GameOver() {
+		PLAYING = false;
+		drawText(30,200,"Sorry but you have lost!","Ariel",24);
+		drawText(30,225,"Press shift Y to replay or shift N to exit!","Ariel",24);
+		
+	}
 	@Override
 	public void paintComponent() {
 
@@ -245,11 +267,20 @@ public class JumpJump extends GameEngine implements KeyListener {
 	}
 
 	public static void main(String args[]) {
-		createGame(new JumpJump());
+		createGame(new JumpJump(importScore));
+
 	}
 	
-	public JumpJump() {
-		
+	public JumpJump(int score) {
+		JumpJump.importScore = score;
+	}
+	public void HealthLoss(){
+		if (PLAYING) {
+			health--;
+			DinoX = 50;
+			DinoY = 450;
+			initAsteroid();
+		}
 	}
 	public void MoveDino() {		
 		if (IDLE) {
@@ -279,13 +310,21 @@ public class JumpJump extends GameEngine implements KeyListener {
 				IDLE = true;
 			}
 		}
+		if (DinoX<LeftBound || DinoX>RightBound) {
+			DinoY+=100;
+		}
+		if (DinoY>700) {
+			HealthLoss();
+		}
 	}
 	
 	public void paintMainMenu() {
 		BackgroundImage = loadImage("Extras/BG.png");
-		MainMenuHead = loadImage("Extras/JumpJumpHead.png");
+		MainMenuHead = loadImage("Extras/AsteroidAttack.png");
 		drawImage(BackgroundImage,0,0,WindowX,WindowY);
-		drawImage(MainMenuHead,25,50,400,50);
+		drawImage(MainMenuHead,125,50,450,50);
+		drawText(75, 25,"HighScore: ","Arial", 24);
+		drawTextHighScore(200, 25, "Arial", 24, importScore);
 
 		
 		drawImage(MainMenuGround[0],25,625,100,100);
@@ -297,8 +336,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 		LeftBound = -40;
 		RightBound = 580;
-		ShowHelp();
-		
+		ShowHelp();		
 
 		//LEFT AND RIGHT BOUND NEED TO BE +- 65 of INTIAL DRAWN POINTS
 		// TODO Auto-generated method stub
@@ -309,7 +347,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 			tablet = loadImage("Extras/tablet.png");
 			drawImage(tablet,150,225,350,300);
 			changeColor(DGray);
-			drawText(200,175,"Rules","Arial",18);
+			drawText(200,275,"Rules","Arial",18);
 			drawText(180,300,"1: Use the A and D key to move left or right!","Arial",16);
 			drawText(180,325,"2: Use the W key to jump!","Arial",16);
 			drawText(180,350,"3: Avoid falling off the edges!","Arial",16);
@@ -317,8 +355,12 @@ public class JumpJump extends GameEngine implements KeyListener {
 			drawText(180,400,"below will envelop you!","Arial",16);
 		}
 	}
+	public void PaintScore() {
+		drawText(25, 25, "Score: ", "Arial", 25);
+		drawTextHighScore(100, 25, "Arial", 25, score);
+	}
 	public void keyPressed(KeyEvent e ) {
-		if (e.getKeyCode() == KeyEvent.VK_D && e.getKeyCode() != KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_D && e.getKeyCode() != KeyEvent.VK_W&&PLAYING) {
 			IDLE = false;
 			ML = false;
 			MR = true;
@@ -326,40 +368,57 @@ public class JumpJump extends GameEngine implements KeyListener {
 			if (DinoX>RightBound) {
 				DinoY+=10;
 			}
+			if (DinoY>700) {
+				HealthLoss();
+
+			}
 			
 		}
-		if (e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() != KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() != KeyEvent.VK_W &&PLAYING) {
 			MR = false;
 			IDLE = false;
 			ML = true;
 			MU = false;
-			if (DinoX<LeftBound) {
-				DinoY+=10;
-			}
+
 
 		}
-		if (e.getKeyCode() == KeyEvent.VK_S) {
+		if (e.getKeyCode() == KeyEvent.VK_S&&PLAYING) {
 			MR = false;
 			IDLE = true;
 			ML = false;
 			MU = false;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_W&&PLAYING) {
 			IDLE = false;
 			MU = true;
 			MR = false;
 			ML = false;
 		}	
+		if (e.getKeyCode() == KeyEvent.VK_Y) {
+			if(score>importScore) {
+				JumpJump.importScore = score;
+				
+			}
+
+			createGame(new JumpJump(importScore)); //not perfect, find another method maybe
+			
+		}
+
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_W&&PLAYING) {
 			MD = true;
 			MU = false;
 			ML = false;
 			MR = false;
 			IDLE = false;
 		}
+	}
+	@Override
+	protected void PausedGame() {
+		initAsteroid();
+		
 	}
 
 }
