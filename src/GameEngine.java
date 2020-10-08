@@ -89,13 +89,14 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		JButton mPlay = new JButton();
 		JButton mHelp = new JButton();
 		JButton mBack = new JButton();
-
+		JButton mPause = new JButton();
+		
 		//"Icon made by Pixel perfect from www.flaticon.com"
 		mPlay.setIcon(new ImageIcon("Icons/play-button.png"));
 		mExit.setIcon(new ImageIcon("Icons/exit.png"));
 		mHelp.setIcon(new ImageIcon("Icons/help-button.png"));
 		mBack.setIcon(new ImageIcon("Icons/backButton.png")); //"Icon made by xnimrodx from www.flaticon.com"
-
+		mPause.setIcon(new ImageIcon("Icons/pause-button.png")); //Icon made by freekpik from www.flaticon.com
 		//REMOVE BORDER ON BUTTONS
 		mPlay.setOpaque(false);
 		mPlay.setContentAreaFilled(false);
@@ -109,6 +110,9 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mBack.setOpaque(false);
 		mBack.setContentAreaFilled(false);
 		mBack.setBorderPainted(false);
+		mPause.setOpaque(false);
+		mPause.setContentAreaFilled(false);
+		mPause.setBorderPainted(false);
 		
 		mPlay.setBounds(350, 150, 64, 64);
 		mHelp.setBounds(350, 250, 64, 64);
@@ -119,7 +123,7 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 		mPanel.add(mPlay);
 		mPanel.add(mHelp);
 		mPanel.add(mExit);
-		
+		mPanel.add(mPause);
 		mPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mPanel.remove(mHelp);
@@ -127,9 +131,18 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 				mPanel.remove(mExit);
 				MAINMENU = false;
 				PLAYING = true;
+				mPause.setBounds(600,500,64,64);
 			}
 		});
-		
+		mPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PLAYING = false;
+				mPanel.add(mPlay);
+				mPanel.add(mHelp);
+				mPanel.add(mExit);
+				PausedGame();
+			}
+		});
 		mHelp.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				mPanel.remove(mHelp);
@@ -182,6 +195,8 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 
 	}
 
+
+	protected abstract void PausedGame();
 
 	public void setWindowSize(final int width, final int height) {
 		SwingUtilities.invokeLater(new Runnable() {
