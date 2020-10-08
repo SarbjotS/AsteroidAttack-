@@ -63,9 +63,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	static int importScore;
 	//----------------------
 	//Difficulty
-	//Collision
-	//Point System
-	//life system
+
 	//new game
 	//----------------------------
 	public void initAsteroid() {
@@ -108,9 +106,6 @@ public class JumpJump extends GameEngine implements KeyListener {
 		for (int i = 0; i <AsteroidAmount; i++) {
 			AsteroidX[i] += AsteroidVX[i]*dt;
 			AsteroidY[i] += AsteroidVY[i]*dt;
-			if (AsteroidY[i]>=700) {
-				System.out.print("Hey");
-			}
 		}
 	}
 	
@@ -123,14 +118,18 @@ public class JumpJump extends GameEngine implements KeyListener {
 			restoreLastTransform();
 		}
 	}
-	
+	//Commented out are for testing
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
 			//System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
-			//System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
-			//System.out.print("DinoX: "+ DinoX+"\n");
-			//System.out.print("DinoY: "+ DinoY+ "\n");
-			if (AsteroidX[i] >= DinoX-50 && AsteroidX[i] <= DinoX+165 && AsteroidY[i] >= DinoY-50 && AsteroidY[i] <= DinoY+50 ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+			//System.out.print("DinoX: "+ (DinoX-25)+"\n");
+			//System.out.print("DinoX: "+ (DinoX+64)+"\n");
+			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+135) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+				//System.out.print("AsteroidX: "+ AsteroidX[i]+ "\n");
+				//System.out.print("AsteroidY: "+ AsteroidY[i]+ "\n");
+				//System.out.print("DinoX: "+ (DinoX-25)+"\n");
+				//System.out.print("DinoX: "+ (DinoX+25)+"\n");
+				//System.out.print("DinoY: "+ DinoY+ "\n");
 				HealthLoss();
 			}
 		}
@@ -317,6 +316,12 @@ public class JumpJump extends GameEngine implements KeyListener {
 				IDLE = true;
 			}
 		}
+		if (DinoX<LeftBound || DinoX>RightBound) {
+			DinoY+=100;
+		}
+		if (DinoY>700) {
+			HealthLoss();
+		}
 	}
 	
 	public void paintMainMenu() {
@@ -380,13 +385,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 			IDLE = false;
 			ML = true;
 			MU = false;
-			if (DinoX<LeftBound) {
-				DinoY+=10;
-			}
-			if (DinoY>700) {
-				HealthLoss();
 
-			}
 
 		}
 		if (e.getKeyCode() == KeyEvent.VK_S&&PLAYING) {
@@ -401,16 +400,16 @@ public class JumpJump extends GameEngine implements KeyListener {
 			MR = false;
 			ML = false;
 		}	
-		if (e.getKeyCode() == KeyEvent.VK_Y&&PLAYING) {
+		if (e.getKeyCode() == KeyEvent.VK_Y) {
 			if(score>importScore) {
 				JumpJump.importScore = score;
 				
 			}
-			createGame(new JumpJump(importScore));
+
+			createGame(new JumpJump(importScore)); //not perfect, find another method maybe
+			
 		}
-		//if (e.getKeyCode() == KeyEvent.VK_C) {
-			//PLAYING = true;
-		//}
+
 	}
 	
 	public void keyReleased(KeyEvent e) {
@@ -421,6 +420,11 @@ public class JumpJump extends GameEngine implements KeyListener {
 			MR = false;
 			IDLE = false;
 		}
+	}
+	@Override
+	protected void PausedGame() {
+		initAsteroid();
+		
 	}
 
 }

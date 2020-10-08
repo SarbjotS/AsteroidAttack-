@@ -134,7 +134,15 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 				mPause.setBounds(600,500,64,64);
 			}
 		});
-		
+		mPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PLAYING = false;
+				mPanel.add(mPlay);
+				mPanel.add(mHelp);
+				mPanel.add(mExit);
+				PausedGame();
+			}
+		});
 		mHelp.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				mPanel.remove(mHelp);
@@ -187,6 +195,8 @@ public abstract class GameEngine implements KeyListener, MouseListener, MouseMot
 
 	}
 
+
+	protected abstract void PausedGame();
 
 	public void setWindowSize(final int width, final int height) {
 		SwingUtilities.invokeLater(new Runnable() {
