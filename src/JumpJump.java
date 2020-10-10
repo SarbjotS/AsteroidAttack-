@@ -36,7 +36,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean MU = false;
 	boolean MD = false;
 	
-
+	//AudioClip
+	AudioClip Music;
+	boolean musicPlaying = false;
 	//Asteroid
 	int AsteroidAmount;
 	double AsteroidX[], AsteroidY[];
@@ -118,7 +120,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	}
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+165) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+200) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 				HealthLoss(); //Restart to starting position and lose one health
 			}
 		}
@@ -129,7 +131,12 @@ public class JumpJump extends GameEngine implements KeyListener {
 		LoadImages(); //Load images
 		drawImage(IdleDino[MenuCurrentFrame],DinoX,DinoY,200,200); //paint initial dino
 		paintMainMenu(); //Paint main menu
-
+		
+		if (!musicPlaying) {
+			Music = loadAudio("Extras//blakeht_-_Amazon.wav"); //Amazon by Blake (c) copyright 2015 
+			startAudioLoop(Music); 
+			musicPlaying = true; //Stop music from starting at the beginning
+		}
 		if (PLAYING) { //start game
 			StartGame();
 		}
