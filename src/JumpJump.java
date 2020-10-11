@@ -59,6 +59,10 @@ public class JumpJump extends GameEngine implements KeyListener {
 	int health = 1;
 	boolean GameOverManGameOver = false;
 
+	//modifiers
+	Image Meat;
+	Image HedgeHog;
+	
 	//Scores
 	int score = 0;
 	int highScore = 0;
@@ -120,7 +124,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	}
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+200) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+			if ((AsteroidX[i] >= DinoX+64 && AsteroidX[i] <= DinoX+200) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 				HealthLoss(); //Restart to starting position and lose one health
 			}
 		}
@@ -146,7 +150,19 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 		AsteroidCollision(); //check if asteroid has collision
 		MoveDino(); //moving the dino
+		PowerModifiers();
+	}
+	public void PowerModifiers() {
+		if (health == 1) {
+			drawImage(Meat,450,550,32,32);
+			System.out.print(DinoX +"\n"+ DinoY + "\n");
 
+			if (DinoX+50 == 450 && DinoY+100 == 550) {
+				health++;
+			}
+			
+		}
+		
 	}
 	public void LoadImages() {
 		IdleDino = new Image[30];
@@ -199,6 +215,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 		MainMenuGround[0] = loadImage("BasicGround\\Ground01.png");
 		MainMenuGround[1] = loadImage("BasicGround\\Ground02.png");
 		MainMenuGround[2] = loadImage("BasicGround\\Ground03.png");
+		
+		Meat = loadImage("Extras//meat.png");
+		HedgeHog = loadImage("Extras//hedgehog.png");
 	}
 	
 
