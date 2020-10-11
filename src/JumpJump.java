@@ -13,6 +13,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	int currentFrame;
 	int JumpFrame;
 	int MenuCurrentFrame;
+	int j =300;
 	
 	//Images
 	Image MainMenuHead;
@@ -56,9 +57,17 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean PeakDif = false; //peak difficulty
 	
 	//Health
-	int health = 1;
+	int health = 2;
 	boolean GameOverManGameOver = false;
 
+	//modifiers
+	Image Meat;
+	Image HedgeHog;
+	Image FHedgeHog;
+	boolean placement = true;
+	boolean left = false;
+	boolean right = true;
+	
 	//Scores
 	int score = 0;
 	int highScore = 0;
@@ -67,6 +76,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 	//----------------------------
 	public void initAsteroid() {
+		placement = true;
 		AsteroidAmount = AsteroidDif; //INCREASE ASTEROIDS
 		AsteroidX = new double[AsteroidAmount];
 		AsteroidY = new double[AsteroidAmount];
@@ -120,7 +130,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 	}
 	public void AsteroidCollision() {
 		for (int i = 0; i <AsteroidAmount; i++) {
-			if ((AsteroidX[i] >= DinoX+15 && AsteroidX[i] <= DinoX+200) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
+			if ((AsteroidX[i] >= DinoX+64 && AsteroidX[i] <= DinoX+200) && (AsteroidY[i] >= DinoY-10 && AsteroidY[i] <= DinoY+10) ) { //DONT CHANGE NUMBERS, THEY MORE OR LESS WORK
 				HealthLoss(); //Restart to starting position and lose one health
 			}
 		}
@@ -146,7 +156,40 @@ public class JumpJump extends GameEngine implements KeyListener {
 
 		AsteroidCollision(); //check if asteroid has collision
 		MoveDino(); //moving the dino
+		PowerModifiers();
+	}
+	public void PowerModifiers() { 
+		if (health == 1) { //Add health modifier
+			drawImage(Meat,450,550,32,32);
 
+			if (DinoX+50 == 450 && DinoY+100 == 550) {
+				health++;
+			}
+			
+		}
+		if (placement) { //Hedgehog will patrol from left to right
+			if (right) {
+				drawImage(HedgeHog,j,575,64,64);
+				j+=2;
+			}
+			if (left) {
+				drawImage(FHedgeHog,j,575,64,64);
+				j-=2;
+			}
+			if ((j-80<DinoX && j+30>DinoX) && DinoY+100 == 550 && PLAYING) {
+				placement = false;
+				health--;
+			}
+			if (j > 500) {
+				right = false;
+				left = true;
+			}
+			if (j < 100) {
+				right = true;
+				left = false;
+			}
+		}
+		
 	}
 	public void LoadImages() {
 		IdleDino = new Image[30];
@@ -199,6 +242,10 @@ public class JumpJump extends GameEngine implements KeyListener {
 		MainMenuGround[0] = loadImage("BasicGround\\Ground01.png");
 		MainMenuGround[1] = loadImage("BasicGround\\Ground02.png");
 		MainMenuGround[2] = loadImage("BasicGround\\Ground03.png");
+		
+		Meat = loadImage("Extras//meat.png");
+		HedgeHog = loadImage("Extras//hedgehog.png");
+		FHedgeHog = loadImage("Extras//FlippedHedgehog.png");
 	}
 	
 
