@@ -50,14 +50,14 @@ public class JumpJump extends GameEngine implements KeyListener {
 	boolean going = true; //Whether asteroid is already going or needs a re init
 	
 	//Asteroid difficulty
-	int AsteroidSpeed = 60;
+	int AsteroidSpeed = 50;
 	int AsteroidDif = 1;
 	int counter = 0;
 	int pointNum = 100;
 	boolean PeakDif = false; //peak difficulty
 	
 	//Health
-	int health = 2;
+	int health = 3;
 	boolean GameOverManGameOver = false;
 
 	//modifiers
