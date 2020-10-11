@@ -243,8 +243,8 @@ public class JumpJump extends GameEngine implements KeyListener {
 		MainMenuGround[1] = loadImage("BasicGround\\Ground02.png");
 		MainMenuGround[2] = loadImage("BasicGround\\Ground03.png");
 		
-		Meat = loadImage("Extras//meat.png");
-		HedgeHog = loadImage("Extras//hedgehog.png");
+		Meat = loadImage("Extras//meat.png"); //icon by prettycons
+		HedgeHog = loadImage("Extras//hedgehog.png"); //icon by ultimatearm
 		FHedgeHog = loadImage("Extras//FlippedHedgehog.png");
 	}
 	
@@ -300,7 +300,7 @@ public class JumpJump extends GameEngine implements KeyListener {
 				if (score%500 == 0 && !PeakDif) {
 					AsteroidDif++;
 					AsteroidSpeed += 5;
-					if (score == 1500) {
+					if (score > 1500) {
 						PeakDif = true;
 					}
 				}
@@ -352,6 +352,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 		}
 		if (MR) {
 			DinoX+=10;
+			//if (MU) { try this for jumpjumpgame
+				//drawImage(DinoJump[9],DinoX,DinoY,200,200);
+			//}
 			drawImage(RunRightDino[currentFrame],DinoX,DinoY,200,200);
 		}
 		if (ML) {
@@ -424,7 +427,9 @@ public class JumpJump extends GameEngine implements KeyListener {
 			drawText(180,325,"2: Hold the W key to jump!","Arial",16);
 			drawText(180,350,"3: Avoid falling off the edges!","Arial",16);
 			drawText(180,375,"4: Avoid the asteroid!","Arial",16);
-			drawText(180,400,"Have fun!","Arial",16);
+			drawText(180,400,"4: Eat the meat pickup to regain a life!","Arial",16);
+			drawText(180,425,"4: Avoid the patrolling hedgehog!","Arial",16);
+			drawText(180,450,"Have fun!","Arial",16);
 		}
 	}
 	public void PaintScore() {
